@@ -1,0 +1,107 @@
+CHALLENGE 7 VIDEO NOTES
+
+
+1. Must learn “async” and “await” in Javascript.
+2. “Inquire” will be used
+
+3. Steps in creating the repo (different from last time)
+	a. Mkdir <repo_name>
+	b. cd <repo_name>
+	c. git init
+	d. npm init -y
+	e. touch .gitignore
+		i. Edit contents (VS code)
+			(1) node_modules
+			(2) .DS_Store
+	f. npm i inquirer
+	g. node_modules should be greyed out; however, VS code has a bug wherein this does not work on Mac.  None-the-less, Mac git should honor the .gitignore setting.  “git status” can be used to confirm .gitignore is working correctly.
+	h. Make new “index.mjs” file using VS code
+		i. First line of index.mjs should be: 
+			import inquirer from ‘inquirer’;
+		ii. Starting at line 4 (negotiable):
+			let response = await inquirer
+				.prompt([
+					{
+						type: 'input',
+						name: 'first_name',
+						message: "What's your first name",
+					},
+					{
+						type: 'input',
+						name: 'last_name',
+						message: "What's your last name",
+						default() {
+							return 'Doe';
+						},
+					},
+				])
+
+
+			console.log(response);
+	i. Note that use of .mjs enable use of asynchronous functions from the top level without having to be within the scope of a function.  (This is relevant to the "... await inquirer" notation above.)
+	j. To test the above: node index.mjs
+	k. Now change lines __ and __ to:
+		let {first_name, last_name} = await_inquirer
+		console.log(first_name, last_name); 
+		(This is called "de-structuring" (?))
+
+	l. Google "README" and "Basic writing and formatting syntax - GitHub Docs"
+		Should give link:
+			https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
+	m. Add the following 2nd line to index.mjs
+		import fs from "fs/promises";
+	n. Must get "screencastify" to work
+
+
+
+ULTIMATELY (before my refinements), index.mjs should look like the following:
+
+
+
+
+import inquirer from 'inquirer';
+import fs from "fs/promises";
+
+
+let {description, size} = await inquirer
+	.prompt([
+		{
+			type: 'input',
+			name: 'description',
+			message: "Write a description of your project:",
+		},
+		{
+			type: 'list',
+			name: 'size',
+			message: 'What size do you need?',
+			choices: ['Jumbo', 'Large', 'Standard', 'Medium', 'Small', 'Micro'],
+			filter(val) {
+				return val.toLowerCase();
+			},
+		},
+	])
+
+let readmeText = `# Project Description
+${description}
+
+## The second largest heading
+
+${generateLicense(size)}
+
+###### The smallest heading
+
+`
+
+fs.writeFile("README.md",readmeText )
+
+
+
+function generateLicense(license){
+
+
+	if(license === "Juumbo"){
+	
+		return "[~[License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https:....
+	} else ...
+
+}	
