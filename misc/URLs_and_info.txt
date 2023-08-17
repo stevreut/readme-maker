@@ -56,7 +56,7 @@ Grading Percentages
 		* Video must show invocation as if by user
 		* Video must show prompts and all responses
 		* The README provided must match the output from the walk-thru responses
-	Technical Appeptance Criteria: 40%
+	Technical Acceptance Criteria: 40%
 		* Satisfies all of the above
 		* Uses the Inquirer package
 	Repository Quality: 13%

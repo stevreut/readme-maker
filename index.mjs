@@ -6,6 +6,11 @@ console.log('preparing to prompt for info mjs');
 const questions = [
     {
         type: 'input',
+        name: 'user',
+        message: 'What is your GitHub user name?'
+    },
+    {
+        type: 'input',
         name: 'title',
         message: "What is the README's title?"
     },
@@ -35,6 +40,11 @@ const questions = [
         message: "What information about tests should be included?"
     },
     {
+        type: 'input',
+        name: 'email',
+        message: "What is your email address?"
+    },
+    {
         type: 'list',
         name: 'license',
         message: 'What type of license was used?',
@@ -52,24 +62,42 @@ console.log('JSON of answers = \n' + answersJsonString);
 console.log('inqResp.description = "' + inqResp.description + '"');
 
 let {
+        user,
         title,
         description,
         installation,
         usage,
         contributing,
         tests,
+        email,
         license
     } = inqResp;
 
+user = user.trim();
+let gitHubUrl = '';
+let gitUserInfo = '';
+if (user !== '' && user !== null) {
+    gitHubUrl = 'http://github.com/' + user + '/';
+    gitUserInfo = `\nMore information about this repository can be found by 
+referring to GitHub user account [${user}](${gitHubUrl}).`
+}
+
+email = email.trim();
+let emailPara = '';
+if (email !== '' && email !== null) {
+    emailPara = '\nFor more information, contact the owner of ' +
+        'this repository at [' + email + '](mailto:' + email + ').';
+}
+
 let toc = [];
-let tocAsString = 'TOC ASDF';  // TODO
+let tocAsString = '';
 
 function catalog(field, label) {
     let locField = field.trim();
     if (locField === '' || locField === null) {
         return '';
     } else {
-        toc.push({label: label, link: '#'+label});
+        toc.push({label: label, link: '#'+label.toLowerCase()});
         console.log('toc = ' + JSON.stringify(toc));
         let newField = '\n## ' + label + '\n\n' + 
             locField;
@@ -80,7 +108,7 @@ function catalog(field, label) {
 function formatToc() {
     for (const entry of toc) {
         tocAsString += 
-            ('\n- [' + entry.label + '] (' +
+            ('\n- [' + entry.label + '](' +
              entry.link + ')');
     }
 }
@@ -116,7 +144,11 @@ ${license}
 ## Badges
 
 ${badges}
-${tests}`;  
+${tests}
+
+## Questions
+${gitUserInfo}
+${emailPara}`;  
 
 // TODO - ultimately must use different output file name - perhaps prompt for it?
 let writeResult = await fsp.writeFile('./misc/log.txt',readMeContent);
