@@ -158,5 +158,5 @@ ${gitUserInfo}
 ${emailPara}`;  
 
 // TODO - ultimately must use different output file name - perhaps prompt for it?
-let writeResult = await fsp.writeFile('./misc/log.txt',readMeContent);
+let writeResult = await fsp.writeFile('./misc/README.md',readMeContent);
 console.log('past write - any logging prior?')
