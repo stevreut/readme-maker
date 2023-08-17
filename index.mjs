@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import fs from 'fs';
+import fsp from 'fs/promises';
 
 // const inquirer = require('inquirer');
 // const fs = require('fs');
@@ -23,20 +23,14 @@ const questions = [
     }
 ];
 
-let tempAnswers = null;  // TODO
-
-inquirer.prompt(questions).then((answers) => {
-    console.log('answers received');
-    tempAnswers = answers;
-    let answersJsonString = JSON.stringify(answers, null, '  ');
-    console.log('JSON of answers = \n' + answersJsonString);
-    return answers;
-}).then((data) => {
-    // TODO data is a place-holder name, ultimate TBD
-    console.log('data.description = "' + data.description + '"');
-    console.log('data.size = "' + data.size + '"');
-    const {description,size} = data;
-    let logContent = 
+let inqResp = await inquirer.prompt(questions);
+console.log('answers received');
+let answersJsonString = JSON.stringify(inqResp, null, '  ');
+console.log('JSON of answers = \n' + answersJsonString);
+console.log('inqResp.description = "' + inqResp.description + '"');
+console.log('inqResp.size = "' + inqResp.size + '"');
+const {description,size} = inqResp;
+let logContent = 
 `Demo README as log file
 ================
  Description:
@@ -45,11 +39,5 @@ inquirer.prompt(questions).then((answers) => {
  Size:
     ${size}
 ================`;
-    fs.writeFile('./misc/log.txt',logContent, (err) => {
-        if (err) {
-            console.log('error on write = "' + err + '"');
-        } else {
-            console.log('write to ./misc/log.txt was successful');
-        }
-    })
-});  // TODO - no error checking?!
+let writeResult = await fsp.writeFile('./misc/log.txt',logContent);
+console.log('past write - any logging prior?')
