@@ -51,7 +51,7 @@ let answersJsonString = JSON.stringify(inqResp, null, '  ');
 console.log('JSON of answers = \n' + answersJsonString);
 console.log('inqResp.description = "' + inqResp.description + '"');
 
-const {
+let {
         title,
         description,
         installation,
@@ -61,9 +61,37 @@ const {
         license
     } = inqResp;
 
-//TODO Installation, Usage, Contributing, and Tests
+let toc = [];
+let tocAsString = 'TOC ASDF';  // TODO
 
-let tocAsString = 'TOC not yet defined';  // TODO
+function catalog(field, label) {
+    let locField = field.trim();
+    if (locField === '' || locField === null) {
+        return '';
+    } else {
+        toc.push({label: label, link: '#'+label});
+        console.log('toc = ' + JSON.stringify(toc));
+        let newField = '\n## ' + label + '\n\n' + 
+            locField;
+        return newField;
+    }
+}
+
+function formatToc() {
+    for (const entry of toc) {
+        tocAsString += 
+            ('\n- [' + entry.label + '] (' +
+             entry.link + ')');
+    }
+}
+
+installation = catalog(installation,'Installation');
+usage = catalog(usage,'Usage');
+contributing = catalog(contributing,'Contributing');  // TODO
+tests = catalog(tests,'Testing');
+
+formatToc();
+
 let badges = 'BADGES ASDF';  // TODO
 
 let readMeContent = 
@@ -77,11 +105,8 @@ ${description}
 ## Table of Contents
 
 ${tocAsString}
-
 ${installation}
-
 ${usage}
-
 ${contributing}
 
 ## License
@@ -91,7 +116,6 @@ ${license}
 ## Badges
 
 ${badges}
-
 ${tests}`;  
 
 // TODO - ultimately must use different output file name - perhaps prompt for it?
