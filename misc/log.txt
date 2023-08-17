@@ -1,7 +1,7 @@
 Demo README as log file
 ================
  Description:
-    This is an elaborate description entered 19:55
+    desc
 ================
  Size:
     medium
