@@ -48,10 +48,10 @@ const questions = [
         type: 'list',
         name: 'license',
         message: 'What type of license was used?',
-        choices: ['MIT','Yale','Harvard','none'],  // TODO
-        filter (val) {
-            return val.toLowerCase().trim();
-        }
+        choices: ['MIT','GPLv2','Apache','GPLv3','BSD 3-clause','LGPv3','no license']
+        // filter (val) {
+        //     return val.toLowerCase().trim();
+        // }
     }
 ];
 
@@ -113,6 +113,13 @@ function formatToc() {
     }
 }
 
+if (license === 'no license') {
+    license = 'This software is not licensed.'
+} else {
+    license = 'This software is available under the terms of the ' +
+        license + ' license.';
+}
+
 installation = catalog(installation,'Installation');
 usage = catalog(usage,'Usage');
 contributing = catalog(contributing,'Contributing');  // TODO
@@ -120,7 +127,7 @@ tests = catalog(tests,'Testing');
 
 formatToc();
 
-let badges = 'BADGES ASDF';  // TODO
+let badges = '';
 
 let readMeContent = 
 
